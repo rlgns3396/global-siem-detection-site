@@ -1,1 +1,113 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Global SIEM Detection</title></head><body><h1>Global SIEM Detection</h1></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Global SIEM Detection Pack — production-oriented Splunk detection content with validated SPL, MITRE ATT&CK mapping, field requirements, synthetic test data, tuning guidance, and investigation playbooks.">
+  <title>Global SIEM Detection Pack</title>
+  <style>
+    :root{--bg:#07111f;--panel:#0e1b2e;--text:#eef6ff;--muted:#9fb1c6;--line:#20334b;--accent:#58c4ff;--accent2:#8b7cff;--ok:#62d69a}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#06101d 0%,#081523 45%,#07111f 100%);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}.brand{font-weight:800;letter-spacing:.2px}.navlinks{display:flex;gap:22px;color:var(--muted);font-size:14px}.hero{padding:86px 0 58px;text-align:center}.eyebrow{display:inline-block;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--accent);font-size:13px;background:rgba(88,196,255,.06)}
+    h1{font-size:clamp(42px,7vw,78px);line-height:1.03;margin:22px auto 18px;max-width:900px}.gradient{background:linear-gradient(90deg,var(--accent),#9fdcff,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{max-width:780px;margin:0 auto;color:var(--muted);font-size:19px}.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}.btn{padding:13px 18px;border-radius:10px;border:1px solid var(--line);font-weight:700}.btn.primary{background:linear-gradient(90deg,#168cd0,#6a5cff);border-color:transparent}.btn.secondary{background:#0b1828}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:56px 0}.stat,.card{background:rgba(14,27,46,.82);border:1px solid var(--line);border-radius:16px}.stat{padding:22px}.stat strong{display:block;font-size:28px}.stat span{color:var(--muted);font-size:14px}
+    section{padding:64px 0}.section-head{max-width:760px;margin-bottom:28px}.section-head h2{font-size:34px;margin:0 0 10px}.section-head p{color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{padding:24px}.card h3{margin:0 0 8px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:15px}.tag{display:inline-block;margin-top:14px;padding:4px 8px;border-radius:999px;background:#11233a;color:#b8d7ef;font-size:12px}
+    .quality{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}.checklist{display:grid;gap:10px}.check{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#0b1828}.check b{color:var(--ok)}
+    .matrix{width:100%;border-collapse:collapse;font-size:14px}.matrix th,.matrix td{padding:13px;border-bottom:1px solid var(--line);text-align:left}.matrix th{color:#cfe6f8}.matrix td{color:var(--muted)}
+    .notice{padding:24px;border:1px solid #31516e;background:rgba(88,196,255,.06);border-radius:16px}.notice strong{color:var(--accent)} footer{padding:42px 0 54px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+    @media(max-width:850px){.grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.quality{grid-template-columns:1fr}.navlinks{display:none}}
+    @media(max-width:560px){.grid,.stats{grid-template-columns:1fr}.hero{padding-top:52px}.wrap{width:min(100% - 26px,1120px)}}
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <nav class="nav">
+      <div class="brand">Global SIEM Detection</div>
+      <div class="navlinks">
+        <a href="#included">What's Included</a><a href="#quality">Quality</a><a href="#coverage">Coverage</a><a href="#launch">Launch</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <span class="eyebrow">Splunk Edition · v1.0 in development</span>
+      <h1>Detection content built to be <span class="gradient">understood, tuned, and validated</span>.</h1>
+      <p class="lead">A production-oriented SIEM detection pack designed for security teams that need more than a collection of SPL queries. Each scenario is packaged with required telemetry, field mapping, MITRE ATT&CK context, test data, tuning guidance, and investigation support.</p>
+      <div class="cta">
+        <a class="btn primary" href="#launch">Join the launch list</a>
+        <a class="btn secondary" href="#included">Explore the pack</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>100</strong><span>scenario roadmap for v1.0</span></div>
+        <div class="stat"><strong>SPL</strong><span>primary and fallback query design</span></div>
+        <div class="stat"><strong>MITRE</strong><span>ATT&CK mapping with version tracking</span></div>
+        <div class="stat"><strong>CI</strong><span>synthetic validation and regression checks</span></div>
+      </div>
+    </section>
+
+    <section id="included" class="wrap">
+      <div class="section-head"><h2>What each detection includes</h2><p>The product is structured so customers can answer three questions quickly: Can we ingest the right data? Can we deploy the rule? Can our SOC operate it safely?</p></div>
+      <div class="grid">
+        <div class="card"><h3>Detection Logic</h3><p>Security hypothesis, aggregation key, threshold, time window, and clear observable behavior.</p><span class="tag">Deterministic by default</span></div>
+        <div class="card"><h3>Required Telemetry</h3><p>Typical source systems, log types, required and recommended fields, plus field-mapping guidance.</p><span class="tag">Deployment ready</span></div>
+        <div class="card"><h3>Executable SPL</h3><p>Clean query files for Splunk, with primary and fallback designs where appropriate.</p><span class="tag">No prose inside SPL</span></div>
+        <div class="card"><h3>MITRE ATT&CK</h3><p>Technique mapping, rationale, and framework version metadata rather than unsupported over-claims.</p><span class="tag">Evidence aligned</span></div>
+        <div class="card"><h3>Test Dataset</h3><p>CSV and JSONL synthetic events covering normal, positive, boundary, allowlisted, and edge cases.</p><span class="tag">Reproducible</span></div>
+        <div class="card"><h3>SOC Guidance</h3><p>False-positive notes, allowlists, triage steps, response guidance, limitations, and tuning advice.</p><span class="tag">Operator focused</span></div>
+      </div>
+    </section>
+
+    <section id="quality" class="wrap">
+      <div class="section-head"><h2>Quality is a product feature</h2><p>Rules are not promoted beyond the evidence available. Where no live Splunk runtime is available, validation status remains explicitly synthetic.</p></div>
+      <div class="quality">
+        <div class="card">
+          <h3>Automated quality gates</h3>
+          <div class="checklist">
+            <div class="check"><b>✓</b> Schema and catalog consistency</div>
+            <div class="check"><b>✓</b> SPL structure and executable-file purity</div>
+            <div class="check"><b>✓</b> Primary / fallback semantic consistency</div>
+            <div class="check"><b>✓</b> CSV / JSONL test-data equivalence</div>
+            <div class="check"><b>✓</b> Positive, normal, boundary, allowlist and negative tests</div>
+            <div class="check"><b>✓</b> Cross-document field, threshold and ATT&CK checks</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Validation states</h3>
+          <table class="matrix">
+            <tr><th>Status</th><th>Meaning</th></tr>
+            <tr><td>Draft</td><td>Designed, not fully validated</td></tr>
+            <tr><td>Synthetic tested</td><td>Automated test data and regression checks passed</td></tr>
+            <tr><td>Runtime validated</td><td>Reserved for rules verified in a real SIEM runtime</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="coverage" class="wrap">
+      <div class="section-head"><h2>Coverage built around attacker behavior</h2><p>The v1.0 roadmap spans identity, endpoint, network, cloud, web/API, data access, lateral movement, persistence, and CI/CD supply-chain telemetry.</p></div>
+      <div class="grid">
+        <div class="card"><h3>Identity & Privilege</h3><p>Brute force variants, password spraying, MFA abuse, privileged changes, dormant-account misuse, and suspicious reset chains.</p></div>
+        <div class="card"><h3>Network & C2</h3><p>Horizontal/vertical scanning, beacon-like patterns, unusual egress, DNS anomalies, and fan-out behavior.</p></div>
+        <div class="card"><h3>Endpoint & Persistence</h3><p>Process ancestry, script/interpreter abuse, tool tampering, persistence changes, and suspicious execution context.</p></div>
+        <div class="card"><h3>Web & API</h3><p>Enumeration, authorization failures, token/API identity misuse, scraping patterns, and abnormal status/method behavior.</p></div>
+        <div class="card"><h3>Data & Exfiltration</h3><p>Mass access, bulk exports, unusual transfer volume, first-seen destinations, and scripted SaaS access patterns.</p></div>
+        <div class="card"><h3>Cloud & CI/CD</h3><p>OAuth/device-code abuse, OIDC trust misuse, service-principal persistence, and software supply-chain attack chains.</p></div>
+      </div>
+    </section>
+
+    <section id="launch" class="wrap">
+      <div class="notice">
+        <strong>Launch preparation</strong>
+        <h2>Global SIEM Detection Pack — Splunk Edition v1.0</h2>
+        <p>The first commercial release is currently in development. The target is a 100-scenario pack with documentation, test data, tuning guidance, validation reports, and ongoing post-launch updates. Pricing, licensing, and purchase access will be published here when the v1.0 quality gate is complete.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Global SIEM Detection · Defensive security content for authorized monitoring and detection engineering.</div>
+  </footer>
+</body>
+</html>
